@@ -91,7 +91,7 @@ class UploadCommand(Command):
 
 setup(
     name="PyTumblr-aio",
-    version="0.0.1",
+    version="0.0.2",
     description="An Async Python API v2 wrapper for Tumblr",
     long_description=long_description,
     author="dj-ratty",

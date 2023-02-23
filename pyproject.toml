@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "PyTumblr-aio"
-version = "0.0.1"
+version = "0.0.2"
 authors = [
   { name="Tumblr", email="accounts@tumblr.com" },
     { name="dj-ratty", email="115014503+dj-ratty@users.noreply.github.com"}
