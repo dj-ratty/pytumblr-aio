@@ -15,8 +15,8 @@ Install from source:
 
 .. code-block:: bash
 
-    $ git clone https://github.com/tumblr/pytumblr.git
-    $ cd pytumblr
+    $ git clone https://github.com/dj-ratty/pytumblr-aio.git
+    $ cd aio_pytumblr
     $ python -m build
 
 Usage
@@ -29,7 +29,7 @@ A ``pytumblr.TumblrRestClient`` is the object you'll make all of your calls to t
 
 .. code:: python
 
-    client = pytumblr.TumblrRestClient(
+    client = aio_pytumblr.TumblrRestClient(
         '<consumer_key>',
         '<consumer_secret>',
         '<oauth_token>',
