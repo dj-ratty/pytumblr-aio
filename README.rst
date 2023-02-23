@@ -52,16 +52,16 @@ User Methods
 
 .. code:: python
 
-    client.info() # get information about the authenticating user
-    client.dashboard() # get the dashboard for the authenticating user
-    client.likes() # get the likes for the authenticating user
-    client.following() # get the blogs followed by the authenticating user
+    await client.info() # get information about the authenticating user
+    await client.dashboard() # get the dashboard for the authenticating user
+    await client.likes() # get the likes for the authenticating user
+    await client.following() # get the blogs followed by the authenticating user
 
-    client.follow('codingjester.tumblr.com') # follow a blog
-    client.unfollow('codingjester.tumblr.com') # unfollow a blog
+    await client.follow('codingjester.tumblr.com') # follow a blog
+    await client.unfollow('codingjester.tumblr.com') # unfollow a blog
 
-    client.like(id, reblogkey) # like a post
-    client.unlike(id, reblogkey) # unlike a post
+    await client.like(id, reblogkey) # like a post
+    await client.unlike(id, reblogkey) # unlike a post
 
 Blog Methods
 ~~~~~~~~~~~~
@@ -162,7 +162,7 @@ Creating a chat post supports the same options as default and two other paramete
     Renee: Testing is tedious and so are you.
     John: Aw.
     """
-    client.create_chat(blogName, title="Renee just doesn't understand.", conversation=chat, tags=["renee", "testing"])
+    await client.create_chat(blogName, title="Renee just doesn't understand.", conversation=chat, tags=["renee", "testing"])
 
 Creating an audio post
 ''''''''''''''''''''''
