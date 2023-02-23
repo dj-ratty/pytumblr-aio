@@ -1,4 +1,4 @@
-PyTumblr
+PyTumblr-Aio
 ========
 |Build Status|
 
@@ -9,7 +9,7 @@ Install via pip:
 
 .. code-block:: bash
 
-    $ pip install pytumblr
+    $ pip install PyTumblr-aio
 
 Install from source:
 
@@ -36,7 +36,7 @@ A ``pytumblr.TumblrRestClient`` is the object you'll make all of your calls to t
         '<oauth_secret>',
     )
 
-    client.info() # Grabs the current user information
+    await client.info() # Grabs the current user information
 
 Two easy ways to get your credentials to are:
 
@@ -68,14 +68,14 @@ Blog Methods
 
 .. code:: python
 
-    client.blog_info(blogName) # get information about a blog
-    client.posts(blogName, **params) # get posts for a blog
-    client.avatar(blogName) # get the avatar for a blog
-    client.blog_likes(blogName) # get the likes on a blog
-    client.followers(blogName) # get the followers of a blog
-    client.blog_following(blogName) # get the publicly exposed blogs that [blogName] follows
-    client.queue(blogName) # get the queue for a given blog
-    client.submission(blogName) # get the submissions for a given blog
+    await client.blog_info(blogName) # get information about a blog
+    await client.posts(blogName, **params) # get posts for a blog
+    await client.avatar(blogName) # get the avatar for a blog
+    await client.blog_likes(blogName) # get the likes on a blog
+    await client.followers(blogName) # get the followers of a blog
+    await client.blog_following(blogName) # get the publicly exposed blogs that [blogName] follows
+    await client.queue(blogName) # get the queue for a given blog
+    await client.submission(blogName) # get the submissions for a given blog
 
 Post Methods
 ~~~~~~~~~~~~
@@ -104,18 +104,18 @@ Creating a photo post supports a bunch of different options plus the described d
 .. code:: python
 
     #Creates a photo post using a source URL
-    client.create_photo(blogName, state="published", tags=["testing", "ok"],
-                        source="https://68.media.tumblr.com/b965fbb2e501610a29d80ffb6fb3e1ad/tumblr_n55vdeTse11rn1906o1_500.jpg")
+    await client.create_photo(blogName, state="published", tags=["testing", "ok"],
+                              source="https://68.media.tumblr.com/b965fbb2e501610a29d80ffb6fb3e1ad/tumblr_n55vdeTse11rn1906o1_500.jpg")
 
     #Creates a photo post using a local filepath
-    client.create_photo(blogName, state="queue", tags=["testing", "ok"],
-                        tweet="Woah this is an incredible sweet post [URL]",
-                        data="/Users/johnb/path/to/my/image.jpg")
+    await client.create_photo(blogName, state="queue", tags=["testing", "ok"],
+                              tweet="Woah this is an incredible sweet post [URL]",
+                              data="/Users/johnb/path/to/my/image.jpg")
 
     #Creates a photoset post using several local filepaths
-    client.create_photo(blogName, state="draft", tags=["jb is cool"], format="markdown",
-                        data=["/Users/johnb/path/to/my/image.jpg", "/Users/johnb/Pictures/kittens.jpg"],
-                        caption="## Mega sweet kittens")
+    await client.create_photo(blogName, state="draft", tags=["jb is cool"], format="markdown",
+                              data=["/Users/johnb/path/to/my/image.jpg", "/Users/johnb/Pictures/kittens.jpg"],
+                              caption="## Mega sweet kittens")
 
 Creating a text post
 ''''''''''''''''''''
@@ -125,7 +125,7 @@ Creating a text post supports the same options as default and just a two other p
 .. code:: python
 
     #Creating a text post
-    client.create_text(blogName, state="published", slug="testing-text-posts", title="Testing", body="testing1 2 3 4")
+    await client.create_text(blogName, state="published", slug="testing-text-posts", title="Testing", body="testing1 2 3 4")
 
 Creating a quote post
 '''''''''''''''''''''
@@ -135,7 +135,7 @@ Creating a quote post supports the same options as default and two other paramet
 .. code:: python
 
     #Creating a quote post
-    client.create_quote(blogName, state="queue", quote="I am the Walrus", source="Ringo")
+    await client.create_quote(blogName, state="queue", quote="I am the Walrus", source="Ringo")
 
 Creating a link post
 ''''''''''''''''''''
@@ -147,8 +147,8 @@ Creating a link post
 .. code:: python
 
     #Create a link post
-    client.create_link(blogName, title="I like to search things, you should too.", url="https://duckduckgo.com",
-                       description="Search is pretty cool when a duck does it.")
+    await client.create_link(blogName, title="I like to search things, you should too.", url="https://duckduckgo.com",
+                             description="Search is pretty cool when a duck does it.")
 
 Creating a chat post
 ''''''''''''''''''''
@@ -172,10 +172,10 @@ Creating an audio post allows for all default options and a has 3 other paramete
 .. code:: python
 
     #Creating an audio file
-    client.create_audio(blogName, caption="Rock out.", data="/Users/johnb/Music/my/new/sweet/album.mp3")
+    await client.create_audio(blogName, caption="Rock out.", data="/Users/johnb/Music/my/new/sweet/album.mp3")
 
     #lets use soundcloud!
-    client.create_audio(blogName, caption="Mega rock out.", external_url="https://soundcloud.com/skrillex/sets/recess")
+    await client.create_audio(blogName, caption="Mega rock out.", external_url="https://soundcloud.com/skrillex/sets/recess")
 
 Creating a video post
 '''''''''''''''''''''
@@ -185,11 +185,11 @@ Creating a video post allows for all default options and has three other options
 .. code:: python
 
     #Creating an upload from YouTube
-    client.create_video(blogName, caption="Jon Snow. Mega ridiculous sword.",
-                        embed="http://www.youtube.com/watch?v=40pUYLacrj4")
+    await client.create_video(blogName, caption="Jon Snow. Mega ridiculous sword.",
+                              embed="http://www.youtube.com/watch?v=40pUYLacrj4")
 
     #Creating a video post from local file
-    client.create_video(blogName, caption="testing", data="/Users/johnb/testing/ok/blah.mov")
+    await client.create_video(blogName, caption="testing", data="/Users/johnb/testing/ok/blah.mov")
 
 Editing a post
 ^^^^^^^^^^^^^^
@@ -198,8 +198,8 @@ Updating a post requires you knowing what type a post you're updating. You'll be
 
 .. code:: python
 
-    client.edit_post(blogName, id=post_id, type="text", title="Updated")
-    client.edit_post(blogName, id=post_id, type="photo", data="/Users/johnb/mega/awesome.jpg")
+    await client.edit_post(blogName, id=post_id, type="text", title="Updated")
+    await client.edit_post(blogName, id=post_id, type="photo", data="/Users/johnb/mega/awesome.jpg")
 
 Reblogging a Post
 ^^^^^^^^^^^^^^^^^
@@ -208,7 +208,7 @@ Reblogging a post just requires knowing the post id and the reblog key, which is
 
 .. code:: python
 
-    client.reblog(blogName, id=125356, reblog_key="reblog_key")
+    await client.reblog(blogName, id=125356, reblog_key="reblog_key")
 
 Deleting a post
 ^^^^^^^^^^^^^^^
@@ -217,13 +217,13 @@ Deleting just requires that you own the post and have the post id
 
 .. code:: python
 
-    client.delete_post(blogName, 123456) # Deletes your post :(
+    await client.delete_post(blogName, 123456) # Deletes your post :(
 
 A note on tags: When passing tags, as params, please pass them as a list (not a comma-separated string):
 
 .. code:: python
 
-    client.create_text(blogName, tags=['hello', 'world'], ...)
+    await client.create_text(blogName, tags=['hello', 'world'], ...)
 
 Getting notes for a post
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -232,13 +232,13 @@ In order to get the notes for a post, you need to have the post id and the blog 
 
 .. code:: python
 
-    data = client.notes(blogName, id='123456')
+    data = await client.notes(blogName, id='123456')
 
 The results include a timestamp you can use to make future calls.
 
 .. code:: python
 
-    data = client.notes(blogName, id='123456', before_timestamp=data["_links"]["next"]["query_params"]["before_timestamp"])
+    data = await client.notes(blogName, id='123456', before_timestamp=data["_links"]["next"]["query_params"]["before_timestamp"])
 
 
 Tagged Methods
@@ -247,7 +247,7 @@ Tagged Methods
 .. code:: python
 
     # get posts with a given tag
-    client.tagged(tag, **params)
+    await client.tagged(tag, **params)
 
 Using the interactive console
 -----------------------------

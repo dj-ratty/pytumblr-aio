@@ -90,44 +90,42 @@ class UploadCommand(Command):
 
 
 setup(
-    name="PyTumblr",
-    version="0.1.2",
-    description="A Python API v2 wrapper for Tumblr",
+    name="PyTumblr-aio",
+    version="0.0.1",
+    description="An Async Python API v2 wrapper for Tumblr",
     long_description=long_description,
-    author="Tumblr",
-    author_email="accounts@tumblr.com",
-    url="https://github.com/tumblr/pytumblr",
+    author="dj-ratty",
+    author_email="115014503+dj-ratty@users.noreply.github.com",
+    url="https://github.com/dj-ratty/pytumblr-aio",
     download_url="https://github.com/tumblr/pytumblr/archive/0.1.1.tar.gz",
-    packages=['pytumblr'],
+    packages=['aio_pytumblr'],
     license="Apache Software License 2.0",
     zip_safe=False,
-    keywords='pytumblr',
-    python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*",
+    keywords='pytumblr pytumblr-aio aio_pytumblr',
+    python_requires=">=3.7",
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: Apache Software License',
         'Natural Language :: English',
-        "Programming Language :: Python :: 2",
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10'
     ],
 
     test_suite='nose.collector',
 
     install_requires=[
-        'future',
-        'requests-oauthlib',
+        'httpx',
+        'Authlib',
     ],
 
     tests_require=[
         'nose',
         'nose-cov',
-        'mock'
+        'mock',
+        'aiounittest'
     ],
 
     cmdclass={

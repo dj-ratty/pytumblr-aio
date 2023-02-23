@@ -1,11 +1,8 @@
-from __future__ import absolute_import
-from builtins import str
-from builtins import object
 from .helpers import validate_params, validate_blogname
 from .request import TumblrRequest
 
 
-class TumblrRestClient(object):
+class TumblrRestClient:
     """
     A Python Client for the Tumblr API
     """
@@ -30,16 +27,16 @@ class TumblrRestClient(object):
         """
         self.request = TumblrRequest(consumer_key, consumer_secret, oauth_token, oauth_secret, host)
 
-    def info(self):
+    async def info(self):
         """
         Gets the information about the current given user
 
         :returns: A dict created from the JSON response
         """
-        return self.send_api_request("get", "/v2/user/info")
+        return await self.send_api_request("get", "/v2/user/info")
 
     @validate_blogname
-    def avatar(self, blogname, size=64):
+    async def avatar(self, blogname, size=64):
         """
         Retrieves the url of the blog's avatar
 
@@ -48,9 +45,9 @@ class TumblrRestClient(object):
         :returns: A dict created from the JSON response
         """
         url = "/v2/blog/{}/avatar/{}".format(blogname, size)
-        return self.send_api_request("get", url)
+        return await self.send_api_request("get", url)
 
-    def likes(self, **kwargs):
+    async def likes(self, **kwargs):
         """
         Gets the current given user's likes
         :param limit: an int, the number of likes you want returned
@@ -63,9 +60,9 @@ class TumblrRestClient(object):
 
         :returns: A dict created from the JSON response
         """
-        return self.send_api_request("get", "/v2/user/likes", kwargs, ["limit", "offset", "before", "after"])
+        return await self.send_api_request("get", "/v2/user/likes", kwargs, ["limit", "offset", "before", "after"])
 
-    def following(self, **kwargs):
+    async def following(self, **kwargs):
         """
         Gets the blogs that the current user is following.
         :param limit: an int, the number of likes you want returned
@@ -76,9 +73,9 @@ class TumblrRestClient(object):
 
         :returns: A dict created from the JSON response
         """
-        return self.send_api_request("get", "/v2/user/following", kwargs, ["limit", "offset"])
+        return await self.send_api_request("get", "/v2/user/following", kwargs, ["limit", "offset"])
 
-    def dashboard(self, **kwargs):
+    async def dashboard(self, **kwargs):
         """
         Gets the dashboard of the current user
 
@@ -91,9 +88,9 @@ class TumblrRestClient(object):
 
         :returns: A dict created from the JSON response
         """
-        return self.send_api_request("get", "/v2/user/dashboard", kwargs, ["limit", "offset", "type", "since_id", "reblog_info", "notes_info"])
+        return await self.send_api_request("get", "/v2/user/dashboard", kwargs, ["limit", "offset", "type", "since_id", "reblog_info", "notes_info"])
 
-    def tagged(self, tag, **kwargs):
+    async def tagged(self, tag, **kwargs):
         """
         Gets a list of posts tagged with the given tag
 
@@ -108,10 +105,10 @@ class TumblrRestClient(object):
         :returns: a dict created from the JSON response
         """
         kwargs.update({'tag': tag})
-        return self.send_api_request("get", '/v2/tagged', kwargs, ['before', 'limit', 'filter', 'tag', 'api_key'], True)
+        return await self.send_api_request("get", '/v2/tagged', kwargs, ['before', 'limit', 'filter', 'tag', 'api_key'], True)
 
     @validate_blogname
-    def posts(self, blogname, type=None, **kwargs):
+    async def posts(self, blogname, type=None, **kwargs):
         """
         Gets a list of posts from a particular blog
 
@@ -131,10 +128,10 @@ class TumblrRestClient(object):
             url = '/v2/blog/{}/posts'.format(blogname)
         else:
             url = '/v2/blog/{}/posts/{}'.format(blogname, type)
-        return self.send_api_request("get", url, kwargs, ['id', 'tag', 'limit', 'offset', 'before', 'reblog_info', 'notes_info', 'filter', 'api_key', 'npf'], True)
+        return await self.send_api_request("get", url, kwargs, ['id', 'tag', 'limit', 'offset', 'before', 'reblog_info', 'notes_info', 'filter', 'api_key', 'npf'], True)
 
     @validate_blogname
-    def blog_info(self, blogname):
+    async def blog_info(self, blogname):
         """
         Gets the information of the given blog
 
@@ -144,10 +141,10 @@ class TumblrRestClient(object):
         :returns: a dict created from the JSON response of information
         """
         url = "/v2/blog/{}/info".format(blogname)
-        return self.send_api_request("get", url, {}, ['api_key'], True)
+        return await self.send_api_request("get", url, {}, ['api_key'], True)
 
     @validate_blogname
-    def blog_following(self, blogname, **kwargs):
+    async def blog_following(self, blogname, **kwargs):
         """
         Gets the publicly exposed list of blogs that a blog follows
 
@@ -163,10 +160,10 @@ class TumblrRestClient(object):
         :returns: a dict created from the JSON response
         """
         url = "/v2/blog/{}/following".format(blogname)
-        return self.send_api_request("get", url, kwargs, ['limit', 'offset'])
+        return await self.send_api_request("get", url, kwargs, ['limit', 'offset'])
 
     @validate_blogname
-    def followers(self, blogname, **kwargs):
+    async def followers(self, blogname, **kwargs):
         """
         Gets the followers of the given blog
         :param limit: an int, the number of followers you want returned
@@ -178,10 +175,10 @@ class TumblrRestClient(object):
         :returns: A dict created from the JSON response
         """
         url = "/v2/blog/{}/followers".format(blogname)
-        return self.send_api_request("get", url, kwargs, ['limit', 'offset'])
+        return await self.send_api_request("get", url, kwargs, ['limit', 'offset'])
 
     @validate_blogname
-    def blog_likes(self, blogname, **kwargs):
+    async def blog_likes(self, blogname, **kwargs):
         """
         Gets the current given user's likes
         :param limit: an int, the number of likes you want returned
@@ -195,10 +192,10 @@ class TumblrRestClient(object):
         :returns: A dict created from the JSON response
         """
         url = "/v2/blog/{}/likes".format(blogname)
-        return self.send_api_request("get", url, kwargs, ['limit', 'offset', 'before', 'after'], True)
+        return await self.send_api_request("get", url, kwargs, ['limit', 'offset', 'before', 'after'], True)
 
     @validate_blogname
-    def queue(self, blogname, **kwargs):
+    async def queue(self, blogname, **kwargs):
         """
         Gets posts that are currently in the blog's queue
 
@@ -209,10 +206,10 @@ class TumblrRestClient(object):
         :returns: a dict created from the JSON response
         """
         url = "/v2/blog/{}/posts/queue".format(blogname)
-        return self.send_api_request("get", url, kwargs, ['limit', 'offset', 'filter', 'npf'])
+        return await self.send_api_request("get", url, kwargs, ['limit', 'offset', 'filter', 'npf'])
 
     @validate_blogname
-    def drafts(self, blogname, **kwargs):
+    async def drafts(self, blogname, **kwargs):
         """
         Gets posts that are currently in the blog's drafts
         :param filter: the post format that you want returned: HTML, text, raw.
@@ -220,10 +217,10 @@ class TumblrRestClient(object):
         :returns: a dict created from the JSON response
         """
         url = "/v2/blog/{}/posts/draft".format(blogname)
-        return self.send_api_request("get", url, kwargs, ['filter', 'npf'])
+        return await self.send_api_request("get", url, kwargs, ['filter', 'npf'])
 
     @validate_blogname
-    def submission(self, blogname, **kwargs):
+    async def submission(self, blogname, **kwargs):
         """
         Gets posts that are currently in the blog's submission list
 
@@ -233,10 +230,10 @@ class TumblrRestClient(object):
         :returns: a dict created from the JSON response
         """
         url = "/v2/blog/{}/posts/submission".format(blogname)
-        return self.send_api_request("get", url, kwargs, ['offset', 'filter', 'npf'])
+        return await self.send_api_request("get", url, kwargs, ['offset', 'filter', 'npf'])
 
     @validate_blogname
-    def follow(self, blogname):
+    async def follow(self, blogname):
         """
         Follow the url of the given blog
 
@@ -245,10 +242,10 @@ class TumblrRestClient(object):
         :returns: a dict created from the JSON response
         """
         url = "/v2/user/follow"
-        return self.send_api_request("post", url, {'url': blogname}, ['url'])
+        return await self.send_api_request("post", url, {'url': blogname}, ['url'])
 
     @validate_blogname
-    def unfollow(self, blogname):
+    async def unfollow(self, blogname):
         """
         Unfollow the url of the given blog
 
@@ -257,9 +254,9 @@ class TumblrRestClient(object):
         :returns: a dict created from the JSON response
         """
         url = "/v2/user/unfollow"
-        return self.send_api_request("post", url, {'url': blogname}, ['url'])
+        return await self.send_api_request("post", url, {'url': blogname}, ['url'])
 
-    def like(self, id, reblog_key):
+    async def like(self, id, reblog_key):
         """
         Like the post of the given blog
 
@@ -270,9 +267,9 @@ class TumblrRestClient(object):
         """
         url = "/v2/user/like"
         params = {'id': id, 'reblog_key': reblog_key}
-        return self.send_api_request("post", url, params, ['id', 'reblog_key'])
+        return await self.send_api_request("post", url, params, ['id', 'reblog_key'])
 
-    def unlike(self, id, reblog_key):
+    async def unlike(self, id, reblog_key):
         """
         Unlike the post of the given blog
 
@@ -283,10 +280,10 @@ class TumblrRestClient(object):
         """
         url = "/v2/user/unlike"
         params = {'id': id, 'reblog_key': reblog_key}
-        return self.send_api_request("post", url, params, ['id', 'reblog_key'])
+        return await self.send_api_request("post", url, params, ['id', 'reblog_key'])
 
     @validate_blogname
-    def create_photo(self, blogname, **kwargs):
+    async def create_photo(self, blogname, **kwargs):
         """
         Create a photo post or photoset on a blog
 
@@ -305,10 +302,10 @@ class TumblrRestClient(object):
         :returns: a dict created from the JSON response
         """
         kwargs.update({"type": "photo"})
-        return self._send_post(blogname, kwargs)
+        return await self._send_post(blogname, kwargs)
 
     @validate_blogname
-    def create_text(self, blogname, **kwargs):
+    async def create_text(self, blogname, **kwargs):
         """
         Create a text post on a blog
 
@@ -325,10 +322,10 @@ class TumblrRestClient(object):
         :returns: a dict created from the JSON response
         """
         kwargs.update({"type": "text"})
-        return self._send_post(blogname, kwargs)
+        return await self._send_post(blogname, kwargs)
 
     @validate_blogname
-    def create_quote(self, blogname, **kwargs):
+    async def create_quote(self, blogname, **kwargs):
         """
         Create a quote post on a blog
 
@@ -345,10 +342,10 @@ class TumblrRestClient(object):
         :returns: a dict created from the JSON response
         """
         kwargs.update({"type": "quote"})
-        return self._send_post(blogname, kwargs)
+        return await self._send_post(blogname, kwargs)
 
     @validate_blogname
-    def create_link(self, blogname, **kwargs):
+    async def create_link(self, blogname, **kwargs):
         """
         Create a link post on a blog
 
@@ -366,10 +363,10 @@ class TumblrRestClient(object):
         :returns: a dict created from the JSON response
         """
         kwargs.update({"type": "link"})
-        return self._send_post(blogname, kwargs)
+        return await self._send_post(blogname, kwargs)
 
     @validate_blogname
-    def create_chat(self, blogname, **kwargs):
+    async def create_chat(self, blogname, **kwargs):
         """
         Create a chat post on a blog
 
@@ -386,10 +383,10 @@ class TumblrRestClient(object):
         :returns: a dict created from the JSON response
         """
         kwargs.update({"type": "chat"})
-        return self._send_post(blogname, kwargs)
+        return await self._send_post(blogname, kwargs)
 
     @validate_blogname
-    def create_audio(self, blogname, **kwargs):
+    async def create_audio(self, blogname, **kwargs):
         """
         Create a audio post on a blog
 
@@ -407,10 +404,10 @@ class TumblrRestClient(object):
         :returns: a dict created from the JSON response
         """
         kwargs.update({"type": "audio"})
-        return self._send_post(blogname, kwargs)
+        return await self._send_post(blogname, kwargs)
 
     @validate_blogname
-    def create_video(self, blogname, **kwargs):
+    async def create_video(self, blogname, **kwargs):
         """
         Create a audio post on a blog
 
@@ -428,10 +425,10 @@ class TumblrRestClient(object):
         :returns: a dict created from the JSON response
         """
         kwargs.update({"type": "video"})
-        return self._send_post(blogname, kwargs)
+        return await self._send_post(blogname, kwargs)
 
     @validate_blogname
-    def reblog(self, blogname, **kwargs):
+    async def reblog(self, blogname, **kwargs):
         """
         Creates a reblog on the given blogname
 
@@ -448,10 +445,10 @@ class TumblrRestClient(object):
         if 'tags' in kwargs and kwargs['tags']:
             # Take a list of tags and make them acceptable for upload
             kwargs['tags'] = ",".join(kwargs['tags'])
-        return self.send_api_request('post', url, kwargs, valid_options)
+        return await self.send_api_request('post', url, kwargs, valid_options)
 
     @validate_blogname
-    def delete_post(self, blogname, id):
+    async def delete_post(self, blogname, id):
         """
         Deletes a post with the given id
 
@@ -461,10 +458,10 @@ class TumblrRestClient(object):
         :returns: a dict created from the JSON response
         """
         url = "/v2/blog/{}/post/delete".format(blogname)
-        return self.send_api_request('post', url, {'id': id}, ['id'])
+        return await self.send_api_request('post', url, {'id': id}, ['id'])
 
     @validate_blogname
-    def edit_post(self, blogname, **kwargs):
+    async def edit_post(self, blogname, **kwargs):
         """
         Edits a post with a given id
 
@@ -486,10 +483,10 @@ class TumblrRestClient(object):
             kwargs['tags'] = ",".join(kwargs['tags'])
 
         valid_options = ['id'] + self._post_valid_options(kwargs.get('type', None))
-        return self.send_api_request('post', url, kwargs, valid_options)
+        return await self.send_api_request('post', url, kwargs, valid_options)
 
     @validate_blogname
-    def notes(self, blogname, id, **kwargs):
+    async def notes(self, blogname, id, **kwargs):
         """
         Gets the notes
 
@@ -503,7 +500,7 @@ class TumblrRestClient(object):
         url = "/v2/blog/{}/notes".format(blogname)
         valid_options = ["id", "mode", "before_timestamp"]
         kwargs.update({"id":id})
-        return self.send_api_request('get', url, kwargs, valid_options)
+        return await self.send_api_request('get', url, kwargs, valid_options)
 
     # Parameters valid for /post, /post/edit, and /post/reblog.
     def _post_valid_options(self, post_type=None):
@@ -528,7 +525,7 @@ class TumblrRestClient(object):
 
         return valid
 
-    def _send_post(self, blogname, params):
+    async def _send_post(self, blogname, params):
         """
         Formats parameters and sends the API request off. Validates
         common and per-post-type parameters and formats your tags for you.
@@ -546,9 +543,9 @@ class TumblrRestClient(object):
             # Take a list of tags and make them acceptable for upload
             params['tags'] = ",".join(params['tags'])
 
-        return self.send_api_request("post", url, params, valid_options)
+        return await self.send_api_request("post", url, params, valid_options)
 
-    def send_api_request(self, method, url, params={}, valid_parameters=[], needs_api_key=False):
+    async def send_api_request(self, method, url, params={}, valid_parameters=[], needs_api_key=False):
         """
         Sends the url with parameters to the requested url, validating them
         to make sure that they are what we expect to have passed to us
@@ -575,8 +572,8 @@ class TumblrRestClient(object):
 
         validate_params(valid_parameters, params)
         if method == "get":
-            return self.request.get(url, params)
+            return await self.request.get(url, params)
         elif method == "delete":
-            return self.request.delete(url, params)
+            return await self.request.delete(url, params)
         else:
-            return self.request.post(url, params, files)
+            return await self.request.post(url, params, files)
