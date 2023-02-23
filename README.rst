@@ -1,5 +1,5 @@
 PyTumblr-Aio
-========
+============
 |Build Status|
 
 Installation
